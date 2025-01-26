@@ -1,0 +1,63 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34723.18
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SRC", "SRC", "{82478F02-A914-4DCD-8EE0-C7EB4D90079D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BloggerAI.Domain", "BloggerAI.Domain\BloggerAI.Domain.csproj", "{B4DD3ACD-AF58-4DBA-8F33-FE8EDAB282E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BloggerAI.Core", "BloggerAI.Core\BloggerAI.Core.csproj", "{ABA4E7EC-0956-426E-AC9F-9BAD9766776B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BloggerAI.API", "BloggerAI.API\BloggerAI.API.csproj", "{EFF19D47-7598-4555-9692-C683CB5FEC31}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DockerComposes", "DockerComposes", "{65E2B037-B186-4595-A435-6862AD34273D}"
+	ProjectSection(SolutionItems) = preProject
+		dev-docker-compose.yml = dev-docker-compose.yml
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BloggerAI.Infrastructure", "BloggerAI.Infrastructure\BloggerAI.Infrastructure.csproj", "{912D30DD-4275-4865-B31B-C47F7D98B96E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BloggerAI.MSSQL", "BloggerAI.MSSQL\BloggerAI.MSSQL.csproj", "{827C1D85-FC76-429B-9025-74683632517A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B4DD3ACD-AF58-4DBA-8F33-FE8EDAB282E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4DD3ACD-AF58-4DBA-8F33-FE8EDAB282E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4DD3ACD-AF58-4DBA-8F33-FE8EDAB282E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4DD3ACD-AF58-4DBA-8F33-FE8EDAB282E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABA4E7EC-0956-426E-AC9F-9BAD9766776B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABA4E7EC-0956-426E-AC9F-9BAD9766776B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABA4E7EC-0956-426E-AC9F-9BAD9766776B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABA4E7EC-0956-426E-AC9F-9BAD9766776B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFF19D47-7598-4555-9692-C683CB5FEC31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFF19D47-7598-4555-9692-C683CB5FEC31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFF19D47-7598-4555-9692-C683CB5FEC31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFF19D47-7598-4555-9692-C683CB5FEC31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{912D30DD-4275-4865-B31B-C47F7D98B96E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{912D30DD-4275-4865-B31B-C47F7D98B96E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{912D30DD-4275-4865-B31B-C47F7D98B96E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{912D30DD-4275-4865-B31B-C47F7D98B96E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{827C1D85-FC76-429B-9025-74683632517A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{827C1D85-FC76-429B-9025-74683632517A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{827C1D85-FC76-429B-9025-74683632517A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{827C1D85-FC76-429B-9025-74683632517A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B4DD3ACD-AF58-4DBA-8F33-FE8EDAB282E4} = {82478F02-A914-4DCD-8EE0-C7EB4D90079D}
+		{ABA4E7EC-0956-426E-AC9F-9BAD9766776B} = {82478F02-A914-4DCD-8EE0-C7EB4D90079D}
+		{EFF19D47-7598-4555-9692-C683CB5FEC31} = {82478F02-A914-4DCD-8EE0-C7EB4D90079D}
+		{912D30DD-4275-4865-B31B-C47F7D98B96E} = {82478F02-A914-4DCD-8EE0-C7EB4D90079D}
+		{827C1D85-FC76-429B-9025-74683632517A} = {82478F02-A914-4DCD-8EE0-C7EB4D90079D}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7293666E-7909-4B9A-8109-38C983DE24F9}
+	EndGlobalSection
+EndGlobal
