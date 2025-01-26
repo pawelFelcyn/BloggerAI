@@ -12,4 +12,5 @@ public class IdentityUser
     public required string PasswordHash { get; set; }
 
     public virtual List<Role> Roles { get; set; }
+    public virtual Blogger? Blogger { get; set; }
 }

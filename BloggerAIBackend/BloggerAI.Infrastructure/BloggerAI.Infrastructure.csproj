@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.12" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\BloggerAI.Domain\BloggerAI.Domain.csproj" />
   </ItemGroup>
 
