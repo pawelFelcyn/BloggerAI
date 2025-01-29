@@ -1,5 +1,6 @@
 ﻿using BloggerAI.Core.Authentication;
 using BloggerAI.Core.Dtos;
+using BloggerAI.Core.Exceptions;
 using BloggerAI.Core.Static;
 using BloggerAI.Domain;
 using BloggerAI.Domain.Entities;
@@ -35,7 +36,7 @@ public sealed class BloggerAIAuthenticationService : IBloggerAIAuthenticationSer
             .FirstOrDefaultAsync(i => i.Email == loginDto.Email);
         if (identityUser is null)
         {
-            throw new UnauthorizedAccessException();
+            throw new UnauthorizedException();
         }
 
         var passwordVerivicationResult = _passwordHasher.VerifyHashedPassword(identityUser,
@@ -43,7 +44,7 @@ public sealed class BloggerAIAuthenticationService : IBloggerAIAuthenticationSer
 
         if (passwordVerivicationResult == PasswordVerificationResult.Failed)
         {
-            throw new UnauthorizedAccessException();
+            throw new UnauthorizedException();
         }
 
         List<Claim> claims = [
