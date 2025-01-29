@@ -214,3 +214,4 @@ machine-learning/tutorials/**/IrisClusteringModel.zip
 machine-learning/tutorials/**/MovieRecommenderModel.zip
 
 /azure/sdk-identity-resources-storage/Properties/launchSettings.json
+/BloggerAIBackend/BloggerAI.API/appsettings.Development.Local.json

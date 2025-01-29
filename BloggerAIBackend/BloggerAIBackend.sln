@@ -5,11 +5,11 @@ VisualStudioVersion = 17.9.34723.18
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SRC", "SRC", "{82478F02-A914-4DCD-8EE0-C7EB4D90079D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BloggerAI.Domain", "BloggerAI.Domain\BloggerAI.Domain.csproj", "{B4DD3ACD-AF58-4DBA-8F33-FE8EDAB282E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BloggerAI.Domain", "BloggerAI.Domain\BloggerAI.Domain.csproj", "{B4DD3ACD-AF58-4DBA-8F33-FE8EDAB282E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BloggerAI.Core", "BloggerAI.Core\BloggerAI.Core.csproj", "{ABA4E7EC-0956-426E-AC9F-9BAD9766776B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BloggerAI.Core", "BloggerAI.Core\BloggerAI.Core.csproj", "{ABA4E7EC-0956-426E-AC9F-9BAD9766776B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BloggerAI.API", "BloggerAI.API\BloggerAI.API.csproj", "{EFF19D47-7598-4555-9692-C683CB5FEC31}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BloggerAI.API", "BloggerAI.API\BloggerAI.API.csproj", "{EFF19D47-7598-4555-9692-C683CB5FEC31}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DockerComposes", "DockerComposes", "{65E2B037-B186-4595-A435-6862AD34273D}"
 	ProjectSection(SolutionItems) = preProject
@@ -18,7 +18,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DockerComposes", "DockerCom
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BloggerAI.Infrastructure", "BloggerAI.Infrastructure\BloggerAI.Infrastructure.csproj", "{912D30DD-4275-4865-B31B-C47F7D98B96E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BloggerAI.MSSQL", "BloggerAI.MSSQL\BloggerAI.MSSQL.csproj", "{827C1D85-FC76-429B-9025-74683632517A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BloggerAI.MSSQL", "BloggerAI.MSSQL\BloggerAI.MSSQL.csproj", "{827C1D85-FC76-429B-9025-74683632517A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{619FFE5F-9269-41B2-9445-B50CBCFEB64F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BloggerAI.Core.Tests", "BloggerAI.Core.Tests\BloggerAI.Core.Tests.csproj", "{3325CC70-B1C8-49A5-B2FD-5752C134669F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,6 +50,10 @@ Global
 		{827C1D85-FC76-429B-9025-74683632517A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{827C1D85-FC76-429B-9025-74683632517A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{827C1D85-FC76-429B-9025-74683632517A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3325CC70-B1C8-49A5-B2FD-5752C134669F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3325CC70-B1C8-49A5-B2FD-5752C134669F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3325CC70-B1C8-49A5-B2FD-5752C134669F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3325CC70-B1C8-49A5-B2FD-5752C134669F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -56,6 +64,7 @@ Global
 		{EFF19D47-7598-4555-9692-C683CB5FEC31} = {82478F02-A914-4DCD-8EE0-C7EB4D90079D}
 		{912D30DD-4275-4865-B31B-C47F7D98B96E} = {82478F02-A914-4DCD-8EE0-C7EB4D90079D}
 		{827C1D85-FC76-429B-9025-74683632517A} = {82478F02-A914-4DCD-8EE0-C7EB4D90079D}
+		{3325CC70-B1C8-49A5-B2FD-5752C134669F} = {619FFE5F-9269-41B2-9445-B50CBCFEB64F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7293666E-7909-4B9A-8109-38C983DE24F9}

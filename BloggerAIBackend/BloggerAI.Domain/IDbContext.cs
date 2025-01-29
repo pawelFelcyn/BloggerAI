@@ -9,4 +9,5 @@ public interface IDbContext
     DbSet<Role> Roles { get; set; }
     DbSet<Blogger> Bloggers { get; set; }
     DbSet<Post> Posts { get; set; }
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }
