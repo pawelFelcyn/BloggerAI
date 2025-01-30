@@ -1,8 +1,10 @@
-﻿using BloggerAI.Core.Dtos;
+﻿using BloggerAI.Core.Authorization;
+using BloggerAI.Core.Dtos;
 using BloggerAI.Core.Services;
 using BloggerAI.Core.Validators;
 using BloggerAI.Domain.Entities;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -18,6 +20,7 @@ public static class DependencyInjection
             .AddScoped<WritePostChatMessageFactory>()
             .AddScoped<IPasswordHasher<IdentityUser>, PasswordHasher<IdentityUser>>()
             .AddScoped<IBloggerAIAuthenticationService, BloggerAIAuthenticationService>()
-            .AddScoped<IValidator<LoginDto>, LoginDtoValidator>();
+            .AddScoped<IValidator<LoginDto>, LoginDtoValidator>()
+            .AddSingleton<IAuthorizationHandler, GetAllPostsAuthoriozationRequirementHandler>();
     }
 }

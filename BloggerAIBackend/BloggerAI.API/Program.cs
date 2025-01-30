@@ -2,6 +2,7 @@ using BloggerAI.API;
 using BloggerAI.API.Middleware;
 using BloggerAI.Core;
 using BloggerAI.Core.Authentication;
+using BloggerAI.Core.Authorization;
 using BloggerAI.Domain;
 using BloggerAI.Infrastructure;
 using FluentValidation.AspNetCore;
@@ -39,6 +40,14 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 authenticationSettigns.JwtKey))
         };
     });
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("GetAllPostsPolicy", policy =>
+    {
+        policy.Requirements.Add(new GetAllPostsAuthoriozationRequirement());
+    });
+});
 
 builder.Services.AddSingleton(authenticationSettigns);
 builder.Services.AddLogging();

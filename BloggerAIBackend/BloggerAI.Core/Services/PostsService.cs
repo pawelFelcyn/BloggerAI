@@ -1,4 +1,5 @@
-﻿using BloggerAI.Core.Exceptions;
+﻿using BloggerAI.Core.Dtos;
+using BloggerAI.Core.Exceptions;
 using BloggerAI.Domain;
 using BloggerAI.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -48,5 +49,37 @@ internal sealed class PostsService : IPostsService
 
         _dbContext.Posts.Add(post);
         await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task<PagedResult<PostDto>> GetAll(PostsFilters filters)
+    {
+        IQueryable<Post> postsQuery = _dbContext.Posts;
+
+        if (filters.BloggerId.HasValue)
+        {
+            postsQuery = postsQuery.Where(p => p.BloggerId == filters.BloggerId.Value);
+        }
+
+        var skip = (filters.PageNumber - 1) * filters.PageSize;
+        postsQuery = postsQuery.Skip(skip).Take(filters.PageSize);
+
+        var allResultsCount = await postsQuery.CountAsync();
+
+        var dtos = await postsQuery.Select(p => new PostDto
+        {
+            Id = p.Id,
+            Title = p.Title
+        }).ToListAsync();
+
+        var itemsFrom = skip + 1;
+        return new PagedResult<PostDto>
+        {
+            Items = dtos,
+            ItemsFrom = itemsFrom,
+            ItemsTo = itemsFrom + allResultsCount - 1,
+            PageNumber = filters.PageNumber,
+            PageSize = filters.PageSize,
+            TotalItemsCount = allResultsCount
+        };
     }
 }
