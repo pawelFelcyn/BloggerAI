@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "BloggerAI.API.Tests": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:48441;http://localhost:48442"
+    }
+  }
+}

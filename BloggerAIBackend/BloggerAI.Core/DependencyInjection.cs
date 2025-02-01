@@ -21,6 +21,6 @@ public static class DependencyInjection
             .AddScoped<IPasswordHasher<IdentityUser>, PasswordHasher<IdentityUser>>()
             .AddScoped<IBloggerAIAuthenticationService, BloggerAIAuthenticationService>()
             .AddScoped<IValidator<LoginDto>, LoginDtoValidator>()
-            .AddSingleton<IAuthorizationHandler, GetAllPostsAuthoriozationRequirementHandler>();
+            .AddScoped<IAuthorizationHandler, GetAllPostsAuthoriozationRequirementHandler>();
     }
 }
