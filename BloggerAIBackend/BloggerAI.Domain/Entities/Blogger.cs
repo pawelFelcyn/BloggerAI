@@ -7,7 +7,7 @@ public class Blogger
         Posts = [];
     }
 
-    public Guid Id { get; }
+    public Guid Id { get; init; }
     public required string FirstName { get; set; }
     public required string LastName { get; set; }
 

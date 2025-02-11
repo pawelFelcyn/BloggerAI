@@ -21,6 +21,7 @@ public sealed class GetAllPostsAuthoriozationRequirementHandler : AuthorizationH
         if (context.User.IsInRole("SA"))
         {
             context.Succeed(requirement);
+            return Task.CompletedTask;
         }
 
         var bloggerIdQuery = _httpContextAccessor.HttpContext.Request.Query["BloggerId"];

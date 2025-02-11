@@ -19,6 +19,21 @@ public sealed class DevDataSeeder
 
     public async Task SeedDevelopmentEnvironmentData()
     {
+        if (!await _dbContext.IdentityUsers.AnyAsync(i => i.Roles.Any(r => r.Name == "Admin")))
+        {
+            var saRole = _dbContext.Roles.First(r => r.Name == "SA");
+            var saIdentityUser = new IdentityUser
+            {
+                Email = "sa@dev.com",
+                PasswordHash = ""
+            };
+            saIdentityUser.Roles.Add(saRole);
+            var saPasswordHash = _passwordHasher.HashPassword(saIdentityUser, "123");
+            saIdentityUser.PasswordHash = saPasswordHash;
+            await _dbContext.IdentityUsers.AddAsync(saIdentityUser);
+            await _dbContext.SaveChangesAsync();
+        }
+
         if (!await _dbContext.Bloggers.AnyAsync())
         {
             var bloggerRole = _dbContext.Roles.First(r => r.Name == "Blogger");
