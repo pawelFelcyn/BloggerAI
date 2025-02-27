@@ -47,6 +47,10 @@ builder.Services.AddAuthorization(options =>
     {
         policy.Requirements.Add(new GetAllPostsAuthoriozationRequirement());
     });
+    options.AddPolicy("GetPostByIdPolicy", policy =>
+    {
+        policy.Requirements.Add(new GetPostByIdRequirement());
+    });
 });
 
 builder.Services.AddSingleton(authenticationSettigns);

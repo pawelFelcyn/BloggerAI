@@ -70,7 +70,7 @@ public class APIFactory : WebApplicationFactory<Program>, IAsyncLifetime
         var bloggerRole = await dbContext.Roles.FirstAsync(r => r.Name == "Blogger");
         var identityUser = new IdentityUser
         {
-            Email = $"{Guid.NewGuid}@test.com",
+            Email = $"{Guid.NewGuid()}@test.com",
             PasswordHash = "",
             Roles = [bloggerRole]
         };

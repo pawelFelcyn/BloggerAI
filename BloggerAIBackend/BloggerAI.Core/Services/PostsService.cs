@@ -82,4 +82,25 @@ internal sealed class PostsService : IPostsService
             TotalItemsCount = allResultsCount
         };
     }
+
+    public async Task<PostDetailsDto> GetById(Guid id)
+    {
+        var post = await _dbContext.Posts
+            .Select(p => new PostDetailsDto
+            {
+                Id = p.Id,
+                Title = p.Title,
+                Content = p.Content,
+                Format = p.Format,
+                CreatedAt = p.CreatedAt
+            })
+            .FirstOrDefaultAsync(x => x.Id == id);
+
+        if (post is null)
+        {
+            throw new NotFoundException();
+        }
+
+        return post;
+    }
 }

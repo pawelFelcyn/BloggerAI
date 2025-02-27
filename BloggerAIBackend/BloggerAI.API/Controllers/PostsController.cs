@@ -32,5 +32,13 @@ namespace BloggerAI.API.Controllers
             var result = await _service.GetAll(filters);
             return Ok(result);
         }
+
+        [HttpGet("{id}")]
+        [Authorize(Policy = "GetPostByIdPolicy")]
+        public async Task<ActionResult<PostDetailsDto>> GetById([FromRoute]Guid id)
+        {
+            var post = await _service.GetById(id);
+            return Ok(post);
+        }
     }
 }

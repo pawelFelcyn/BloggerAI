@@ -25,6 +25,10 @@ public class ErrorHandlingMiddleware : IMiddleware
         {
             context.Response.StatusCode = 401;
         }
+        catch (NotFoundException)
+        {
+            context.Response.StatusCode = 404;
+        }
         catch (Exception e)
         {
             _logger.LogError(e, "Error on processing request");

@@ -61,4 +61,63 @@ public class PostsControllerTests
         var result = await client.GetAsync($"/api/posts?pageNumber=1&pageSize=30&bloggerId={blogger1.Id}");
         result.StatusCode.Should().Be(HttpStatusCode.Forbidden);
     }
+
+    [Fact]
+    public async Task GetById_ForAnnonymousUser_ShouldReturnUnauthorized()
+    {
+        var client = _apiFactory.CreateClient();
+        var result = await client.GetAsync($"/api/posts/{Guid.NewGuid()}");
+        result.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+    }
+
+
+    [Fact]
+    public async Task GetById_ForSuperAdmin_ShouldReturnOkWhenRequestingAnExistingPost()
+    {
+        var blogger = await _apiFactory.AddBloggerWithPosts("password", 1);
+        var client = _apiFactory.CreateClient();
+        await _apiFactory.ApplySaAuthority(client);
+        var result = await client.GetAsync($"/api/posts/{blogger.Posts.First().Id}");
+        result.StatusCode.Should().Be(HttpStatusCode.OK);
+    }
+
+    [Fact]
+    public async Task GetById_ForSuperAdmin_ShouldReturnNotFoundForNonExistingPost()
+    {
+        var client = _apiFactory.CreateClient();
+        await _apiFactory.ApplySaAuthority(client);
+        var result = await client.GetAsync($"/api/posts/{Guid.NewGuid()}");
+        result.StatusCode.Should().Be(HttpStatusCode.NotFound);
+    }
+
+    [Fact]
+    public async Task GetById_ForBlogger_ShouldReturnOkWhenRequestingTheirPost()
+    {
+        var blogger = await _apiFactory.AddBloggerWithPosts("password", 1);
+        var client = _apiFactory.CreateClient();
+        await _apiFactory.ApplyAuthority(client, blogger.IdentityUser!.Email, "password");
+        var result = await client.GetAsync($"/api/posts/{blogger.Posts.First().Id}");
+        result.StatusCode.Should().Be(HttpStatusCode.OK);
+    }
+
+    [Fact]
+    public async Task GetById_ForBlogger_ShouldReturnNotFoundWhenRequestingNonExistingPost()
+    {
+        var blogger = await _apiFactory.AddUserWithBloggerRole("password");
+        var client = _apiFactory.CreateClient();
+        await _apiFactory.ApplyAuthority(client, blogger.IdentityUser!.Email, "password");
+        var result = await client.GetAsync($"/api/posts/{Guid.NewGuid()}");
+        result.StatusCode.Should().Be(HttpStatusCode.NotFound);
+    }
+
+    [Fact]
+    public async Task GetById_ForBlogger_ShouldReturnForbiddenWhenRequestingSbElsesPost()
+    {
+        var blogger = await _apiFactory.AddUserWithBloggerRole("password");
+        var blogger2 = await _apiFactory.AddBloggerWithPosts("Password", 1);
+        var client = _apiFactory.CreateClient();
+        await _apiFactory.ApplyAuthority(client, blogger.IdentityUser!.Email, "password");
+        var result = await client.GetAsync($"/api/posts/{blogger2.Posts.First().Id}");
+        result.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+    }
 }

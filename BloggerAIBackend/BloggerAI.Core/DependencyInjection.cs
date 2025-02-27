@@ -23,6 +23,7 @@ public static class DependencyInjection
             .AddScoped<IValidator<LoginDto>, LoginDtoValidator>()
             .AddScoped<IValidator<PostsFilters>, PostsFiltersValidator>()
             .AddScoped<IAuthorizationHandler, GetAllPostsAuthoriozationRequirementHandler>()
+            .AddScoped<IAuthorizationHandler, GetPostByIdRequirementHandler>()
             .AddScoped<IPostsService, PostsService>();
     }
 }
