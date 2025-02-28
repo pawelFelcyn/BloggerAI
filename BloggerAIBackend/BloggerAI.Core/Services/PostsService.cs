@@ -103,4 +103,17 @@ internal sealed class PostsService : IPostsService
 
         return post;
     }
+
+    public async Task DeleteById(Guid id)
+    {
+        var numRows = await _dbContext
+            .Posts
+            .Where(x => x.Id == id)
+            .ExecuteDeleteAsync();
+
+        if (numRows == 0)
+        {
+            throw new NotFoundException();
+        }
+    }
 }

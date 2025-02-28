@@ -120,4 +120,92 @@ public class PostsControllerTests
         var result = await client.GetAsync($"/api/posts/{blogger2.Posts.First().Id}");
         result.StatusCode.Should().Be(HttpStatusCode.Forbidden);
     }
+
+    [Fact]
+    public async Task Delete_ForAnonymousUser_ShouldReturnUnauthorized()
+    {
+        // Arrange
+        var client = _apiFactory.CreateClient();
+
+        // Act
+        var result = await client.DeleteAsync($"/api/posts/{Guid.NewGuid()}");
+
+        // Assert
+        result.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+    }
+
+    [Fact]
+    public async Task Delete_ForSuperAdmin_ShouldReturnNoContentWhenDeletingExistingPost()
+    {
+        // Arrange
+        var blogger = await _apiFactory.AddBloggerWithPosts("password", 1);
+        var client = _apiFactory.CreateClient();
+        await _apiFactory.ApplySaAuthority(client);
+
+        // Act
+        var result = await client.DeleteAsync($"/api/posts/{blogger.Posts.First().Id}");
+
+        // Assert
+        result.StatusCode.Should().Be(HttpStatusCode.NoContent);
+    }
+
+    [Fact]
+    public async Task Delete_ForSuperAdmin_ShouldReturnNotFoundForNonExistingPost()
+    {
+        // Arrange
+        var client = _apiFactory.CreateClient();
+        await _apiFactory.ApplySaAuthority(client);
+
+        // Act
+        var result = await client.DeleteAsync($"/api/posts/{Guid.NewGuid()}");
+
+        // Assert
+        result.StatusCode.Should().Be(HttpStatusCode.NotFound);
+    }
+
+    [Fact]
+    public async Task Delete_ForBlogger_ShouldReturnNoContentWhenDeletingTheirPost()
+    {
+        // Arrange
+        var blogger = await _apiFactory.AddBloggerWithPosts("password", 1);
+        var client = _apiFactory.CreateClient();
+        await _apiFactory.ApplyAuthority(client, blogger.IdentityUser!.Email, "password");
+
+        // Act
+        var result = await client.DeleteAsync($"/api/posts/{blogger.Posts.First().Id}");
+
+        // Assert
+        result.StatusCode.Should().Be(HttpStatusCode.NoContent);
+    }
+
+    [Fact]
+    public async Task Delete_ForBlogger_ShouldReturnNotFoundWhenDeletingNonExistingPost()
+    {
+        // Arrange
+        var blogger = await _apiFactory.AddUserWithBloggerRole("password");
+        var client = _apiFactory.CreateClient();
+        await _apiFactory.ApplyAuthority(client, blogger.IdentityUser!.Email, "password");
+
+        // Act
+        var result = await client.DeleteAsync($"/api/posts/{Guid.NewGuid()}");
+
+        // Assert
+        result.StatusCode.Should().Be(HttpStatusCode.NotFound);
+    }
+
+    [Fact]
+    public async Task Delete_ForBlogger_ShouldReturnForbiddenWhenDeletingSomeoneElsesPost()
+    {
+        // Arrange
+        var blogger = await _apiFactory.AddUserWithBloggerRole("password");
+        var blogger2 = await _apiFactory.AddBloggerWithPosts("Password", 1);
+        var client = _apiFactory.CreateClient();
+        await _apiFactory.ApplyAuthority(client, blogger.IdentityUser!.Email, "password");
+
+        // Act
+        var result = await client.DeleteAsync($"/api/posts/{blogger2.Posts.First().Id}");
+
+        // Assert
+        result.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+    }
 }

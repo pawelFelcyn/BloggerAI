@@ -1,6 +1,7 @@
 ﻿using BloggerAI.Core.Authorization;
 using BloggerAI.Core.Dtos;
 using BloggerAI.Core.Services;
+using BloggerAI.Core.Utils;
 using BloggerAI.Core.Validators;
 using BloggerAI.Domain.Entities;
 using FluentValidation;
@@ -24,6 +25,8 @@ public static class DependencyInjection
             .AddScoped<IValidator<PostsFilters>, PostsFiltersValidator>()
             .AddScoped<IAuthorizationHandler, GetAllPostsAuthoriozationRequirementHandler>()
             .AddScoped<IAuthorizationHandler, GetPostByIdRequirementHandler>()
-            .AddScoped<IPostsService, PostsService>();
+            .AddScoped<IAuthorizationHandler, DeletePostByIdRequirementHandler>()
+            .AddScoped<IPostsService, PostsService>()
+            .AddScoped<IPathStringUtils, PathStringUtils>();
     }
 }

@@ -7,13 +7,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BloggerAI.Core.Authorization;
 
-internal sealed class GetPostByIdRequirementHandler : AuthorizationHandler<GetPostByIdRequirement>
+internal sealed class DeletePostByIdRequirementHandler : AuthorizationHandler<DeletePostByIdRequirement>
 {
     private readonly IUserContextService _userContextService;
     private readonly IDbContext _dbContext;
     private Guid _postId;
 
-    public GetPostByIdRequirementHandler(IUserContextService userContextService, IDbContext dbContext,
+    public DeletePostByIdRequirementHandler(IUserContextService userContextService, IDbContext dbContext,
         IHttpContextAccessor httpContextAccessor, IPathStringUtils pathStringUtils)
     {
         _userContextService = userContextService;
@@ -21,13 +21,8 @@ internal sealed class GetPostByIdRequirementHandler : AuthorizationHandler<GetPo
         _postId = pathStringUtils.GetGuidIdOrDefault(httpContextAccessor.HttpContext.Request.Path);
     }
 
-    protected override  async Task HandleRequirementAsync(AuthorizationHandlerContext context, GetPostByIdRequirement requirement)
+    protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, DeletePostByIdRequirement requirement)
     {
-        if ((!context.User.Identity?.IsAuthenticated) ?? true)
-        {
-            return;
-        }
-
         if (context.User.IsInRole("SA"))
         {
             context.Succeed(requirement);
