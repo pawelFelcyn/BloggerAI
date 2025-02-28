@@ -1,0 +1,28 @@
+services:
+  api:
+    image: bloggerai-api
+    container_name: bloggerai_api
+    build:
+      context: ../../BloggerAIBackend
+      dockerfile: BloggerAI.API/Dockerfile
+    ports:
+      - 8081:8080
+    depends_on:
+      - mssql
+    environment:
+      ConnectionStrings__DatabaseConnection: "Server=database;Database=BloggerAIDb;User Id=sa;Password=Passw0rd;TrustServerCertificate=True"
+      AuthenticationSettings__JwtKey: "SOME_PRIVATE_KEY_DONT_SHARE_000000000"
+      AuthenticationSettings__JwtExpireDays: 10
+      AuthenticationSettings__JwtIssuer: "dev@issuer.com"
+
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: database
+    environment:
+      SA_PASSWORD: "Passw0rd"
+      ACCEPT_EULA: "Y"
+    volumes:
+      - database_volume:/var/opt/mssql
+
+volumes:
+  database_volume:

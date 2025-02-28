@@ -1,0 +1,1 @@
+In this directory, there is a `docker-compose` file for a quick development database setup. You can use it if you are developing the Web API. It will automatically use the database from the service defined in this `docker-compose` file.

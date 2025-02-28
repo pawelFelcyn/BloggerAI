@@ -1,0 +1,50 @@
+name: Run .NET Tests with Docker
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'BloggerAIBackend/**'
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'BloggerAIBackend/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up .NET SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.12'
+
+      - name: Restore dependencies for API tests
+        run: dotnet restore ./BloggerAIBackend/BloggerAI.API.Tests/BloggerAI.API.Tests.csproj
+     
+      - name: Build the API project
+        run: dotnet build ./BloggerAIBackend/BloggerAI.API.Tests/BloggerAI.API.Tests.csproj --configuration Release --no-restore
+
+      - name: Run tests for API
+        run: dotnet test ./BloggerAIBackend/BloggerAI.API.Tests/BloggerAI.API.Tests.csproj --no-build --configuration Release --logger "trx" --results-directory ./test-results
+
+      - name: Restore dependencies for Core tests
+        run: dotnet restore ./BloggerAIBackend/BloggerAI.Core.Tests/BloggerAI.Core.Tests.csproj
+
+      - name: Build the Core project
+        run: dotnet build ./BloggerAIBackend/BloggerAI.Core.Tests/BloggerAI.Core.Tests.csproj --configuration Release --no-restore
+
+      - name: Run tests for Core
+        run: dotnet test ./BloggerAIBackend/BloggerAI.Core.Tests/BloggerAI.Core.Tests.csproj --no-build --configuration Release --logger "trx" --results-directory ./test-results
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results
+          path: ./test-results

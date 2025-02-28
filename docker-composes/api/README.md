@@ -1,0 +1,1 @@
+In this directory, there is a `docker-compose` file that runs the current version of the API. It builds the proper container and sets up all required services. You can use this file if you want to develop a frontend, for example. The API will listen on port `8081`.

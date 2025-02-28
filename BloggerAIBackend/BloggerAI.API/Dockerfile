@@ -10,6 +10,10 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["BloggerAI.API/BloggerAI.API.csproj", "BloggerAI.API/"]
+COPY ["BloggerAI.Core/BloggerAI.Core.csproj", "BloggerAI.Core/"]
+COPY ["BloggerAI.Domain/BloggerAI.Domain.csproj", "BloggerAI.Domain/"]
+COPY ["BloggerAI.Infrastructure/BloggerAI.Infrastructure.csproj", "BloggerAI.Infrastructure/"]
+COPY ["BloggerAI.MSSQL/BloggerAI.MSSQL.csproj", "BloggerAI.MSSQL/"]
 RUN dotnet restore "./BloggerAI.API/BloggerAI.API.csproj"
 COPY . .
 WORKDIR "/src/BloggerAI.API"

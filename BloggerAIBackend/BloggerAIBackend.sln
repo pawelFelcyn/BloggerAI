@@ -11,11 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BloggerAI.Core", "BloggerAI
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BloggerAI.API", "BloggerAI.API\BloggerAI.API.csproj", "{EFF19D47-7598-4555-9692-C683CB5FEC31}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DockerComposes", "DockerComposes", "{65E2B037-B186-4595-A435-6862AD34273D}"
-	ProjectSection(SolutionItems) = preProject
-		dev-docker-compose.yml = dev-docker-compose.yml
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BloggerAI.Infrastructure", "BloggerAI.Infrastructure\BloggerAI.Infrastructure.csproj", "{912D30DD-4275-4865-B31B-C47F7D98B96E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BloggerAI.MSSQL", "BloggerAI.MSSQL\BloggerAI.MSSQL.csproj", "{827C1D85-FC76-429B-9025-74683632517A}"
@@ -24,7 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{619FFE5F
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BloggerAI.Core.Tests", "BloggerAI.Core.Tests\BloggerAI.Core.Tests.csproj", "{3325CC70-B1C8-49A5-B2FD-5752C134669F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BloggerAI.API.Tests", "BloggerAI.API.Tests\BloggerAI.API.Tests.csproj", "{F94B8E7F-CF11-4F0F-921E-939F98D0F910}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BloggerAI.API.Tests", "BloggerAI.API.Tests\BloggerAI.API.Tests.csproj", "{F94B8E7F-CF11-4F0F-921E-939F98D0F910}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
