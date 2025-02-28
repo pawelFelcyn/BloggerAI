@@ -55,6 +55,10 @@ builder.Services.AddAuthorization(options =>
     {
         policy.Requirements.Add(new DeletePostByIdRequirement());
     });
+    options.AddPolicy("UpdatePostByIdPolicy", policy =>
+    {
+        policy.Requirements.Add(new UpdatePostByIdRequirement());
+    });
 });
 
 builder.Services.AddSingleton(authenticationSettigns);

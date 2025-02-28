@@ -8,4 +8,5 @@ public interface IPostsService
     Task<PagedResult<PostDto>> GetAll(PostsFilters filters);
     Task<PostDetailsDto> GetById(Guid id);
     Task DeleteById(Guid id);
+    Task UpdateById(Guid id, UpdatePostDto dto);
 }

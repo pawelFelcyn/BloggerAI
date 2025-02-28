@@ -7,39 +7,32 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BloggerAI.Core.Authorization;
 
-internal sealed class DeletePostByIdRequirementHandler : AuthorizationHandler<DeletePostByIdRequirement>
+internal class UpdatePostByIdRequirementHandler : AuthorizationHandler<UpdatePostByIdRequirement>
 {
     private readonly IUserContextService _userContextService;
+    private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IDbContext _dbContext;
     private Guid _postId;
 
-    public DeletePostByIdRequirementHandler(IUserContextService userContextService, IDbContext dbContext,
-        IHttpContextAccessor httpContextAccessor, IPathStringUtils pathStringUtils)
+    public UpdatePostByIdRequirementHandler(IUserContextService userContextService,
+        IHttpContextAccessor httpContextAccessor, IPathStringUtils pathStringUtils,
+        IDbContext dbContext)
     {
         _userContextService = userContextService;
+        _httpContextAccessor = httpContextAccessor;
         _dbContext = dbContext;
         _postId = pathStringUtils.GetGuidIdOrDefault(httpContextAccessor.HttpContext.Request.Path);
     }
 
-    protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, DeletePostByIdRequirement requirement)
+    protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, UpdatePostByIdRequirement requirement)
     {
-        if ((!context.User.Identity?.IsAuthenticated) ?? true)
-        {
-            return;
-        }
-
-        if (context.User.IsInRole("SA"))
-        {
-            context.Succeed(requirement);
-            return;
-        }
-
         var authorId = await _dbContext
             .Posts
             .Where(p => p.Id == _postId)
             .Select(p => p.BloggerId)
             .FirstOrDefaultAsync();
-        if (authorId == _userContextService.BloggerId || authorId == default)
+
+        if (context.User.IsInRole("Blogger") && (_userContextService.BloggerId == authorId || authorId == default))
         {
             context.Succeed(requirement);
         }

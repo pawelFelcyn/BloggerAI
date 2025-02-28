@@ -48,5 +48,13 @@ namespace BloggerAI.API.Controllers
             await _service.DeleteById(id);
             return NoContent();
         }
+
+        [HttpPut("{id}")]
+        [Authorize(Policy = "UpdatePostByIdPolicy")]
+        public async Task<ActionResult<PostDetailsDto>> UpdateById([FromRoute] Guid id, UpdatePostDto dto)
+        {
+            await _service.UpdateById(id, dto);
+            return NoContent();
+        }
     }
 }

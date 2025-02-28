@@ -23,9 +23,11 @@ public static class DependencyInjection
             .AddScoped<IBloggerAIAuthenticationService, BloggerAIAuthenticationService>()
             .AddScoped<IValidator<LoginDto>, LoginDtoValidator>()
             .AddScoped<IValidator<PostsFilters>, PostsFiltersValidator>()
+            .AddScoped<IValidator<UpdatePostDto>, UpdatePostDtoValidator>()
             .AddScoped<IAuthorizationHandler, GetAllPostsAuthoriozationRequirementHandler>()
             .AddScoped<IAuthorizationHandler, GetPostByIdRequirementHandler>()
             .AddScoped<IAuthorizationHandler, DeletePostByIdRequirementHandler>()
+            .AddScoped<IAuthorizationHandler, UpdatePostByIdRequirementHandler>()
             .AddScoped<IPostsService, PostsService>()
             .AddScoped<IPathStringUtils, PathStringUtils>();
     }

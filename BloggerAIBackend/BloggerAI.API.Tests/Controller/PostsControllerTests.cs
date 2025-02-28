@@ -1,4 +1,6 @@
-﻿using FluentAssertions;
+﻿using BloggerAI.Core.Dtos;
+using BloggerAI.Core.Services;
+using FluentAssertions;
 using System.Net;
 
 namespace BloggerAI.API.Tests.Controller;
@@ -208,4 +210,83 @@ public class PostsControllerTests
         // Assert
         result.StatusCode.Should().Be(HttpStatusCode.Forbidden);
     }
+
+    [Fact]
+    public async Task Update_ForAnonymousUser_ShouldReturnUnauthorized()
+    {
+        var client = _apiFactory.CreateClient();
+        var postId = Guid.NewGuid();
+        var updateDto = new UpdatePostDto { Title = "Updated Title", Content = "Updated Content", Format = PostFormat.Markdown };
+
+        var result = await client.PutAsJsonAsync($"/api/posts/{postId}", updateDto);
+
+        result.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+    }
+
+    [Fact]
+    public async Task Update_ForBlogger_ShouldReturnNoContentWhenUpdatingTheirPost()
+    {
+        var blogger = await _apiFactory.AddBloggerWithPosts("password", 1);
+        var client = _apiFactory.CreateClient();
+        await _apiFactory.ApplyAuthority(client, blogger.IdentityUser!.Email, "password");
+        var updateDto = new UpdatePostDto { Title = "Updated Title", Content = "Updated Content", Format = PostFormat.Markdown };
+
+        var result = await client.PutAsJsonAsync($"/api/posts/{blogger.Posts.First().Id}", updateDto);
+
+        result.StatusCode.Should().Be(HttpStatusCode.NoContent);
+    }
+
+    [Fact]
+    public async Task Update_ForBlogger_ShouldReturnBadRequestForInvalidBody()
+    {
+        var blogger = await _apiFactory.AddBloggerWithPosts("password", 1);
+        var client = _apiFactory.CreateClient();
+        await _apiFactory.ApplyAuthority(client, blogger.IdentityUser!.Email, "password");
+        var updateDto = new UpdatePostDto { Title = new string('x', 51), Content = "Valid Content", Format = PostFormat.Markdown };
+
+        var result = await client.PutAsJsonAsync($"/api/posts/{blogger.Posts.First().Id}", updateDto);
+
+        result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+    }
+
+    [Fact]
+    public async Task Update_ForBlogger_ShouldReturnNotFoundWhenUpdatingNonExistingPost()
+    {
+        var blogger = await _apiFactory.AddUserWithBloggerRole("password");
+        var client = _apiFactory.CreateClient();
+        await _apiFactory.ApplyAuthority(client, blogger.IdentityUser!.Email, "password");
+        var updateDto = new UpdatePostDto { Title = "Updated Title", Content = "Updated Content", Format = PostFormat.Markdown };
+
+        var result = await client.PutAsJsonAsync($"/api/posts/{Guid.NewGuid()}", updateDto);
+
+        result.StatusCode.Should().Be(HttpStatusCode.NotFound);
+    }
+
+    [Fact]
+    public async Task Update_ForBlogger_ShouldReturnForbiddenWhenUpdatingSomeoneElsesPost()
+    {
+        var blogger1 = await _apiFactory.AddBloggerWithPosts("password", 1);
+        var blogger2 = await _apiFactory.AddUserWithBloggerRole("password");
+        var client = _apiFactory.CreateClient();
+        await _apiFactory.ApplyAuthority(client, blogger2.IdentityUser!.Email, "password");
+        var updateDto = new UpdatePostDto { Title = "Updated Title", Content = "Updated Content", Format = PostFormat.Markdown };
+
+        var result = await client.PutAsJsonAsync($"/api/posts/{blogger1.Posts.First().Id}", updateDto);
+
+        result.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+    }
+
+    [Fact]
+    public async Task Update_ForSuperAdmin_ShouldReturnForbidden()
+    {
+        var blogger = await _apiFactory.AddBloggerWithPosts("password", 1);
+        var client = _apiFactory.CreateClient();
+        await _apiFactory.ApplySaAuthority(client);
+        var updateDto = new UpdatePostDto { Title = "Updated Title", Content = "Updated Content", Format = PostFormat.Markdown };
+
+        var result = await client.PutAsJsonAsync($"/api/posts/{blogger.Posts.First().Id}", updateDto);
+
+        result.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+    }
+
 }

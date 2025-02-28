@@ -116,4 +116,20 @@ internal sealed class PostsService : IPostsService
             throw new NotFoundException();
         }
     }
+
+    public async Task UpdateById(Guid id, UpdatePostDto dto)
+    {
+        var numRows = await _dbContext
+            .Posts
+            .Where(x => x.Id == id)
+            .ExecuteUpdateAsync(s =>
+                s.SetProperty(p => p.Title, p => dto.Title)
+                .SetProperty(p => p.Content, p => dto.Content)
+                .SetProperty(p => p.Format, p => dto.Format.ToString()));
+
+        if (numRows == 0)
+        {
+            throw new NotFoundException();
+        }
+    }
 }
