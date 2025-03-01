@@ -1,5 +1,6 @@
 ﻿using BloggerAI.Core.Dtos;
 using BloggerAI.Core.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BloggerAI.API.Controllers;
@@ -20,5 +21,13 @@ public class AuthenticationController : ControllerBase
     {
         var jwtToken = await _service.GetJwtToken(loginDto);
         return Ok(jwtToken);
+    }
+
+    [HttpPatch("changePassword")]
+    [Authorize]
+    public async Task<ActionResult> ChangePassword([FromBody]ChangePasswordDto dto)
+    {
+        await _service.ChangePassword(dto);
+        return NoContent();
     }
 }

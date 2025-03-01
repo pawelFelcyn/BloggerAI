@@ -5,4 +5,5 @@ namespace BloggerAI.Core.Services;
 public interface IBloggerAIAuthenticationService
 {
     Task<string> GetJwtToken(LoginDto loginDto);
+    Task ChangePassword(ChangePasswordDto changePasswordDto);
 }

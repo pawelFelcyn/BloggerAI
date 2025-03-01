@@ -18,7 +18,7 @@ internal sealed class DeletePostByIdRequirementHandler : AuthorizationHandler<De
     {
         _userContextService = userContextService;
         _dbContext = dbContext;
-        _postId = pathStringUtils.GetGuidIdOrDefault(httpContextAccessor.HttpContext.Request.Path);
+        _postId = pathStringUtils.GetGuidIdOrDefault(httpContextAccessor?.HttpContext?.Request?.Path ?? default);
     }
 
     protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, DeletePostByIdRequirement requirement)

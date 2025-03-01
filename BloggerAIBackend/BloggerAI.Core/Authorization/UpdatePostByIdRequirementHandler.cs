@@ -21,7 +21,7 @@ internal class UpdatePostByIdRequirementHandler : AuthorizationHandler<UpdatePos
         _userContextService = userContextService;
         _httpContextAccessor = httpContextAccessor;
         _dbContext = dbContext;
-        _postId = pathStringUtils.GetGuidIdOrDefault(httpContextAccessor.HttpContext.Request.Path);
+        _postId = pathStringUtils.GetGuidIdOrDefault(httpContextAccessor?.HttpContext?.Request?.Path ?? default);
     }
 
     protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, UpdatePostByIdRequirement requirement)

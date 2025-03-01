@@ -24,10 +24,12 @@ public static class DependencyInjection
             .AddScoped<IValidator<LoginDto>, LoginDtoValidator>()
             .AddScoped<IValidator<PostsFilters>, PostsFiltersValidator>()
             .AddScoped<IValidator<UpdatePostDto>, UpdatePostDtoValidator>()
+            .AddScoped<IValidator<ChangePasswordDto>, ChangePasswordDtoValidator>()
             .AddScoped<IAuthorizationHandler, GetAllPostsAuthoriozationRequirementHandler>()
             .AddScoped<IAuthorizationHandler, GetPostByIdRequirementHandler>()
             .AddScoped<IAuthorizationHandler, DeletePostByIdRequirementHandler>()
             .AddScoped<IAuthorizationHandler, UpdatePostByIdRequirementHandler>()
+            .AddScoped<IAuthorizationHandler, ChangePasswordAuthorizationRequirementHandler>()
             .AddScoped<IPostsService, PostsService>()
             .AddScoped<IPathStringUtils, PathStringUtils>();
     }

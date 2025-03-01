@@ -1,5 +1,6 @@
 ﻿using BloggerAI.Core.Static;
 using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 
 namespace BloggerAI.Core.Services;
 
@@ -34,4 +35,6 @@ internal sealed class UserContextService : IUserContextService
             throw new InvalidOperationException("BloggerId claim not found or invalid.");
         }
     }
+
+    public ClaimsPrincipal? User => _httpContextAccessor.HttpContext?.User;
 }

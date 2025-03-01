@@ -1,9 +1,11 @@
 ﻿using BloggerAI.Core.Authentication;
+using BloggerAI.Core.Authorization;
 using BloggerAI.Core.Dtos;
 using BloggerAI.Core.Exceptions;
 using BloggerAI.Core.Static;
 using BloggerAI.Domain;
 using BloggerAI.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -18,13 +20,18 @@ public sealed class BloggerAIAuthenticationService : IBloggerAIAuthenticationSer
     private readonly IPasswordHasher<IdentityUser> _passwordHasher;
     private readonly IDbContext _dbContext;
     private readonly AuthenticationSettings _authenticationSettings;
+    private readonly IAuthorizationService _authorizationService;
+    private readonly IUserContextService _userContextService;
 
     public BloggerAIAuthenticationService(IPasswordHasher<IdentityUser> passwordHasher,
-        IDbContext dbContext, AuthenticationSettings authenticationSettings)
+        IDbContext dbContext, AuthenticationSettings authenticationSettings,
+        IAuthorizationService authorizationService, IUserContextService userContextService)
     {
         _passwordHasher = passwordHasher;
         _dbContext = dbContext;
         _authenticationSettings = authenticationSettings;
+        _authorizationService = authorizationService;
+        _userContextService = userContextService;
     }
 
     public async Task<string> GetJwtToken(LoginDto loginDto)
@@ -49,6 +56,7 @@ public sealed class BloggerAIAuthenticationService : IBloggerAIAuthenticationSer
 
         List<Claim> claims = [
             new Claim(ClaimTypes.NameIdentifier, identityUser.Id.ToString()),
+            new Claim(ClaimTypes.Email, identityUser.Email),
             ];
 
         foreach (var role in identityUser.Roles)
@@ -74,5 +82,42 @@ public sealed class BloggerAIAuthenticationService : IBloggerAIAuthenticationSer
         );
 
         return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
+    }
+
+    public async Task ChangePassword(ChangePasswordDto changePasswordDto)
+    {
+        var authorizationResult = await _authorizationService.AuthorizeAsync(_userContextService.User!,
+            null, new ChangePasswordAuthorizationRequirement
+            {
+                ChangePasswordDto = changePasswordDto
+            });
+
+        if (!authorizationResult.Succeeded)
+        {
+            throw new ForbiddenException();
+        }
+
+        var identityUser = _dbContext
+            .IdentityUsers
+            .FirstOrDefault(x => x.Email == changePasswordDto.Email);
+
+        if (identityUser is null) 
+        {
+            throw new NotFoundException();
+        }
+
+
+        var oldPasswordVerification =
+            _passwordHasher
+            .VerifyHashedPassword(identityUser, identityUser.PasswordHash, changePasswordDto.OldPassword);
+        
+        if (oldPasswordVerification == PasswordVerificationResult.Failed) 
+        {
+            throw new ForbiddenException();
+        }
+
+        var newHash = _passwordHasher.HashPassword(identityUser, changePasswordDto.NewPassword);
+        identityUser.PasswordHash = newHash;
+        await _dbContext.SaveChangesAsync();
     }
 }
