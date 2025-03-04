@@ -1,0 +1,59 @@
+<div class="container">
+    <h3>
+        {{ 'TITLE' | translate }}
+    </h3>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="mb-3">
+        <div class="form-floating">
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            formControlName="email"
+            placeholder="{{ 'EMAIL' | translate }}"
+            [class.is-invalid]="loginForm.get('email')!.invalid && loginForm.get('email')!.touched"
+            [class.is-valid]="loginForm.get('email')!.valid && loginForm.get('email')!.touched"
+          />
+          <label for="email">{{ 'EMAIL' | translate }}</label>
+          
+          <div *ngIf="loginForm.get('email')!.invalid && loginForm.get('email')!.touched" class="invalid-feedback">
+            <small *ngIf="loginForm.get('email')!.hasError('required')">
+              {{ 'EMAIL_REQUIRED' | translate }}
+            </small>
+            <small *ngIf="loginForm.get('email')!.hasError('email')">
+              {{ 'INVALID_EMAIL' | translate }}
+            </small>
+          </div>
+        </div>
+      </div>
+  
+      <div class="mb-3">
+        <div class="form-floating">
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            formControlName="password"
+            placeholder="{{ 'PASSWORD' | translate }}"
+            [class.is-invalid]="loginForm.get('password')!.invalid && loginForm.get('password')!.touched"
+            [class.is-valid]="loginForm.get('password')!.valid && loginForm.get('password')!.touched"
+          />
+          <label for="password">{{ 'PASSWORD' | translate }}</label>
+  
+          <div *ngIf="loginForm.get('password')!.invalid && loginForm.get('password')!.touched" class="invalid-feedback">
+            <small *ngIf="loginForm.get('password')!.hasError('required')">
+              {{ 'PASSWORD_REQUIRED' | translate }}
+            </small>
+            <small *ngIf="loginForm.get('password')!.hasError('minlength')">
+              {{ 'PASSWORD_MIN_LENGTH' | translate }}
+            </small>
+          </div>
+        </div>
+      </div>
+  
+      <button type="submit" class="btn btn-primary w-100" [disabled]="loginForm.invalid">
+        {{ 'LOGIN' | translate }}
+      </button>
+    </form>
+  </div>
+  

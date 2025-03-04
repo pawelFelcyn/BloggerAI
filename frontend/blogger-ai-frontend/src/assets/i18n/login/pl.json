@@ -1,0 +1,10 @@
+{
+  "TITLE": "Witaj!",
+  "LOGIN": "Zaloguj się",
+  "EMAIL": "Email",
+  "PASSWORD": "Hasło",
+  "EMAIL_REQUIRED": "Pole email jest wymagane",
+  "INVALID_EMAIL": "Podaj poprawny adres email",
+  "PASSWORD_REQUIRED": "Pole hasło jest wymagane",
+  "PASSWORD_MIN_LENGTH": "Hasło musi mieć co najmniej 6 znaków"
+}
