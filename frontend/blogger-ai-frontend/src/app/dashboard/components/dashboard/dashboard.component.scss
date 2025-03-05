@@ -1,0 +1,20 @@
+.flex-grow-1 {
+  padding: 20px;
+}
+
+.dashboard-navbar {
+  width: 250px;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  padding-top: 20px;
+}
+
+@media (max-width: 768px) {
+  .dashboard-navbar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+}

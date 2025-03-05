@@ -28,7 +28,6 @@ export class LoginModule {
   private loadModuleTranslations(moduleName: string, language: string): void {
     const path = `../../assets/i18n/${moduleName}/${language}.json`;
     
-    // Use HttpClient to fetch the JSON file
     this.http.get(path).subscribe((translations: any) => {
       this.translate.setTranslation(language, translations, true);
     }, error => {
