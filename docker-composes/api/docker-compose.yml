@@ -7,6 +7,7 @@ services:
       dockerfile: BloggerAI.API/Dockerfile
     ports:
       - 8081:8080
+    pull_policy: build
     depends_on:
       - mssql
     environment:
@@ -14,6 +15,7 @@ services:
       AuthenticationSettings__JwtKey: "SOME_PRIVATE_KEY_DONT_SHARE_000000000"
       AuthenticationSettings__JwtExpireDays: 10
       AuthenticationSettings__JwtIssuer: "dev@issuer.com"
+      SeedDevData: true
 
   mssql:
     image: mcr.microsoft.com/mssql/server:2022-latest

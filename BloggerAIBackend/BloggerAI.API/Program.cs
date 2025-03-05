@@ -78,6 +78,16 @@ builder.Services.AddHttpContextAccessor()
     .AddScoped<IDbContext>(sp => sp.GetRequiredService<BloggerAIDbContext>())
     .AddScoped<DevDataSeeder>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllOrigins", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()     
+              .AllowAnyHeader();        
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -86,6 +96,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("AllowAllOrigins");
 
 app.UseHttpsRedirection();
 
@@ -101,7 +113,7 @@ using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<BloggerAIDbContext>();
     await dbContext.Database.MigrateAsync();
-    if (app.Environment.IsDevelopment())
+    if (app.Configuration.GetValue<bool>("SeedDevData"))
     {
         var devDataSeeder = scope.ServiceProvider.GetRequiredService<DevDataSeeder>();
         await devDataSeeder.SeedDevelopmentEnvironmentData();
